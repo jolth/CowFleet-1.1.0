@@ -23,12 +23,12 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
         </tbody>
     </table>
 
-<div id="dialogdelete" title="Eliminar Cliente">
+<div id="dialogdelete" title="Eliminar Cliente" class="hide">
     <h3>Advertencia</h3>
     <p>Esta acci&oacute;n borrar&aacute; permanentemente el Cliente <span style="font-weight:bold;color:#2180CE;"></span> del sistema.</p>
     <p>¿Est&aacute; seguro que desea realizar esta acci&oacute;n?</p>
 </div>
-<div id="dialogphones" title="Tel&eacute;fonos Existentes" class="users-contain">
+<div id="dialogphones" title="Tel&eacute;fonos Existentes" class="users-contain hide">
     <!--<h3>Tel&eacute;fonos Existentes</h3>-->
     <p>Los tel&eacute;fonos del cliente <span style="font-weight:bold;color:#2180CE;"></span> son:</p>
     <table id="phones" class="ui-widget ui-widget-content">
@@ -51,11 +51,6 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
 
 <script>
  jQuery(document).ready(function(){
-    // Capitalize JavaScrip
-    String.prototype.capitalize = function(){
-       return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
-    };
-
 
     // Dialog Phones
     jQuery('#dialogphones').dialog({
@@ -160,4 +155,10 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
     jQuery(':input').addClass('input');
     jQuery(':input').css('padding', '1px');;
  });
+</script>
+<script>
+// Capitalize JavaScrip
+String.prototype.capitalize = function(){
+    return this.replace( /(^|\s)([a-z])/g , function(m,p1,p2){ return p1+p2.toUpperCase(); } );
+};
 </script>
