@@ -23,11 +23,13 @@ urls = (
   "/deletegps", "deletegps",
   "/addvehicle", "addvehicle",
   "/listvehicle","listvehicle",
+  "/listvehiclesjson", "listvehiclesjson",
   "/deletevehicle", "deletevehicle",
   "/assignclient", "assignclient",
   "/addclient", "addclient",
   "/listclient", "listclient",
   "/deleteclient", "deleteclient",
+  "/listclientjson", "listclientjson",
   "/adduser", "adduser",
   "/listuser","listuser",
   "/deleteuser","deleteuser",
@@ -236,7 +238,27 @@ class listvehicle:
 class assignclient:
     @Sesion
     def GET(self):
-        return assignclient
+        from appForm import formAssignclient
+
+        f = formAssignclient() 
+        return renderbase_admin.assignclient(web.ctx.session, f) 
+
+    def POST(self):
+        from appForm import formAssignclient
+
+        f = formAssignclient() 
+        if f.validates():
+            #    return f.d
+            try:
+                # Insert an entry into table 'clientes_vehiculos'
+                sequence_id = DB.insert('clientes_vehiculos', **f.d)
+            except: 
+                #pass
+                return renderbase_admin.assignclient(web.ctx.session, f, msgerr=u'No se pudo crear la relación vehículo(%s) a cliente(%s).' % (f.d.vehiculo_id, f.d.cliente_id))
+            return renderbase_admin.assignclient(web.ctx.session, f, u'La relación vehículo(%s) a cliente(%s), se ha guardado con exito!' % (f.d.vehiculo_id, f.d.cliente_id))
+        else:
+            return renderbase_admin.assignclient(web.ctx.session, f, msgerr=u'Los datos no son válidos.')
+
 
 class deletevehicle:
     @Sesion
@@ -286,6 +308,22 @@ class listgspjson:
 
         web.header('content-Type', 'application/json')
         return json.dumps(listingDropdown('gps', "id,name", "id DESC"))
+
+class listclientjson:
+    @Sesion
+    def GET(self):
+        import simplejson as json 
+        from db import listingDropdown
+        web.header('content-Type', 'application/json')
+        return json.dumps(listingDropdown('clientes', "id,documento", "id DESC"))
+
+class listvehiclesjson:
+    @Sesion
+    def GET(self):
+        import simplejson as json 
+        from db import listingDropdown
+        web.header('content-Type', 'application/json')
+        return json.dumps(listingDropdown('vehiculos', "id,placa", "id DESC"))
 
 class listingphones:
     @Sesion

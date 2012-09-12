@@ -10,22 +10,36 @@ formGps = form.Form(
         form.Validator('El nombre para el Dispositivo con el formato: [ANT|SKP]001', lambda x: len(x)>5),
         form.Validator('No es un Dispositivo valido. Debe usar [ANT|SKP...] como nombre', lambda x: [d for d in ('HUT', 'SKP', 'ANT') if d==x[:3]]),
         class_="input", description="Nombre", maxlength="10"),
-    form.Dropdown('type', [(0, 'Seleccione un Cliente')] + listingDropdown('type_gps', "codigo,descrip", "codigo ASC"), 
+    form.Dropdown('type', [(0, 'Seleccione un Tipo')] + listingDropdown('type_gps', "codigo,descrip", "codigo ASC"), 
         form.Validator('Debe seleccionar un dispositivo', lambda x: int(x) > 0) , description="Tipo GPS", class_="chzn-select"),
     form.Checkbox('active', value='activo', checked=True, description="Activo")
 )
 
+# Formulario assignclient:
+formAssignclient = form.Form(
+    #form.Dropdown('cliente_id', [(0, 'Seleccione un Cliente')] + listingDropdown('clientes', "id,documento", "id ASC"), 
+    #    form.Validator('Debe seleccionar un dispositivo', lambda x: int(x) > 0) , description="Cliente", class_="chzn-select"),
+    form.Dropdown('cliente_id', [(0, 'Seleccione un Cliente')], 
+        form.Validator('Debe seleccionar un cliente', lambda x: int(x) > 0) , description="Cliente", class_="chzn-select"),
+    #form.Dropdown('vehiculo_id', [(0, 'Seleccione un Vehículo')] + listingDropdown('vehiculos', "id,placa", "id ASC"), 
+    #    form.Validator('Debe seleccionar un dispositivo', lambda x: int(x) > 0) , description="Vehículo", class_="chzn-select"),
+    form.Dropdown('vehiculo_id', [(0, 'Seleccione un Vehículo')],
+        form.Validator('Debe seleccionar un vehículo', lambda x: int(x) > 0) , description="Vehículo", class_="chzn-select"),
+)
+
 # Formulario adduser:
 formUser = form.Form(
-    form.Dropdown('cliente_id', [(0, 'Seleccione un Cliente')] + listingDropdown('clientes', "id,documento", "id DESC"), 
+    form.Dropdown('cliente_id', [(0, 'Seleccione un Cliente')], 
         form.Validator('Debe seleccionar un Cliente', lambda x: int(x) > 0), description="Cliente", class_="chzn-select"),
+    #form.Dropdown('cliente_id', [(0, 'Seleccione un Cliente')] + listingDropdown('clientes', "id,documento", "id DESC"), 
+    #    form.Validator('Debe seleccionar un Cliente', lambda x: int(x) > 0), description="Cliente", class_="chzn-select"),
     form.Textbox("usuario",
         form.notnull,
         #form.Validator('El nombre para el Dispositivo con el formato: [ANT|SKP]001', lambda x: len(x)>5),
         #form.Validator('No es un Dispositivo valido. Debe usar [ANT|SKP...] como nombre', lambda x: [d for d in ('HUT', 'SKP', 'ANT') if d==x[:3]]),
         class_="input", description="Nombre", maxlength="10"),
     form.Password('passwd', form.notnull, class_="input", description="Contraseña", maxlength="10"),
-    form.Password('passwd_again', form.notnull, class_="input", description="Repitala Cña", maxlength="10"),
+    form.Password('passwd_again', form.notnull, class_="input", description="Repita Cña", maxlength="10"),
     #validators = [form.Validator(unicode('Las contraseñas no coinciden.', 'utf-8'), lambda i: i.password == i.password_again)],
     form.Dropdown('privilege_id', [(0, 'Seleccione Privilegio')] + listingDropdown('privileges', "id,descrip", "id ASC"), 
         form.Validator('Debe seleccionar un Privilegio para el usuario', lambda x: int(x) > 0), description="Privilegios", class_="chzn-select"),
