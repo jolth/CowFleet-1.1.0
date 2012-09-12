@@ -1,0 +1,64 @@
+$def with(path, session)    
+
+$# Nombre del cliente:
+$var username: $session.username.nombre1.lower().capitalize() $session.username.apellido1.lower().capitalize()
+<h2>Bienvenido</h2>
+
+$#<h3>Estamos en: $path</h3>
+
+$#<p>La sesion esta: $session</p>
+<!--<div>
+<p>ID: $session.clienteId.
+<a href="/logout">logout</a></p>
+</div>-->
+
+<!--Div that will hold the pie chart-->
+<div id="chart_devices"></div>
+<div id="chart_users" style="width:500px;"></div>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', {'packages':['corechart']});
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawChartDevices);
+    google.setOnLoadCallback(drawChartUsers);
+
+    function drawChartDevices() {
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Antares', 4],
+          ['Skypatrol', 2],
+          ['Hunterpro', 1],
+        ]);
+
+        // Set chart options
+        var options = {'title':'Tipo de Dispositivos Instalados',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_devices'));
+        chart.draw(data, options);
+    }
+
+    function drawChartUsers(){
+        var data = google.visualization.arrayToDataTable([
+          ['Mes', 'Usuarios', 'Dispositivos'],
+          ['Abril',  30,      32],
+          ['Mayo',   10,      20],
+          ['Junio',  20,      21],
+          ['Julio',  10,      40]
+        ]);
+
+        var options = { title: 'Comparativa Usuarios/Dispositivos',
+                        hAxis: {title: 'Meses', titleTextStyle: {color: 'red'}}
+                      };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_users'));
+                chart.draw(data, options);
+    }
+
+</script>
