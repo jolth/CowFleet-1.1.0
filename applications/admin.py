@@ -71,7 +71,7 @@ class addgps:
                 sequence_id = DB.insert('gps', **f.d)
             except: 
                 return renderbase_admin.addgps(web.ctx.session, f, msgerr='El dispositivo %s ya existe' % f.d.name)
-            return renderbase_admin.addgps(web.ctx.session, f, 'El dispositivo %s, se ha guardado con exito!' % f.d.name)
+            return renderbase_admin.addgps(web.ctx.session, f, u'El dispositivo %s, se ha guardado con éxito!' % f.d.name)
         else:
             return renderbase_admin.addgps(web.ctx.session, f, msgerr=u'Los datos no son válidos.')
             
@@ -137,7 +137,7 @@ class addclient:
             except: 
                 print "Error Inesperado2 /addclient:", sys.exc_info()
                 return renderbase_admin.addclient(web.ctx.session, f, msgerr='El Cliente: %s %s, ya existe' % (f.d.nombres, f.d.apellidos))
-            return renderbase_admin.addclient(web.ctx.session, f, 'El Cliente: %s %s, se ha creado con exito!' % (f.d.nombres, f.d.apellidos))
+            return renderbase_admin.addclient(web.ctx.session, f, u'El Cliente: %s %s, se ha creado con éxito!' % (f.d.nombres, f.d.apellidos))
         else:
             return renderbase_admin.addclient(web.ctx.session, f, msgerr=u'Los datos no son válidos.')
 
@@ -178,7 +178,7 @@ class adduser:
                         privilege_id=f.d.privilege_id, activo=f.d.activo, cliente_id=f.d.cliente_id)
             except: 
                 return renderbase_admin.adduser(web.ctx.session, f, msgerr='El usuario %s ya existe' % f.d.usuario)
-            return renderbase_admin.adduser(web.ctx.session, f, 'El usuario %s, se ha creado con exito!' % f.d.usuario)
+            return renderbase_admin.adduser(web.ctx.session, f, u'El usuario %s, se ha creado con éxito!' % f.d.usuario)
         else:
             return renderbase_admin.adduser(web.ctx.session, f, msgerr=u'Los datos no son válidos.')
 
@@ -224,7 +224,7 @@ class addvehicle:
                         linea_id=f.d.linea_id or None, color_id=f.d.color_id or None)
             except: 
                 return renderbase_admin.addvehicle(web.ctx.session, f, msgerr=u'El Vehículo %s ya existe' % f.d.placa)
-            return renderbase_admin.addvehicle(web.ctx.session, f, u'El vehículo %s, se ha creado con exito!' % f.d.placa)
+            return renderbase_admin.addvehicle(web.ctx.session, f, u'El vehículo %s, se ha creado con éxito!' % f.d.placa)
         else:
             return renderbase_admin.addvehicle(web.ctx.session, f, msgerr=u'Los datos no son válidos.')
 
@@ -254,8 +254,8 @@ class assignclient:
                 sequence_id = DB.insert('clientes_vehiculos', **f.d)
             except: 
                 #pass
-                return renderbase_admin.assignclient(web.ctx.session, f, msgerr=u'No se pudo crear la relación vehículo(%s) a cliente(%s).' % (f.d.vehiculo_id, f.d.cliente_id))
-            return renderbase_admin.assignclient(web.ctx.session, f, u'La relación vehículo(%s) a cliente(%s), se ha guardado con exito!' % (f.d.vehiculo_id, f.d.cliente_id))
+                return renderbase_admin.assignclient(web.ctx.session, f, msgerr=u'No se pudo crear la relación vehículo(%s) a cliente(%s). Porque ya existe!' % (f.d.vehiculo_id, f.d.cliente_id))
+            return renderbase_admin.assignclient(web.ctx.session, f, u'La relación vehículo(%s) a cliente(%s), se ha guardado con éxito!' % (f.d.vehiculo_id, f.d.cliente_id))
         else:
             return renderbase_admin.assignclient(web.ctx.session, f, msgerr=u'Los datos no son válidos.')
 
