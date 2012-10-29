@@ -1,10 +1,7 @@
 $def with (session, vehicles, msg=None)
 <script type="text/javascript" src="/static/js/picnet.table.filter.min.js"></script>
-
-$# Nombre del cliente:
 $var username: $session.username.nombre1.lower().capitalize() $session.username.apellido1.lower().capitalize()
 <h2>Lista de Veh&iacute;culos</h2>
-
     <table id='tabla1'>
         <thead>
             <tr><th style="border-left:1px solid white;">Placa</th><th>GPS</th>
@@ -22,18 +19,14 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
                 <a data-id='$i.id' data-placa="$i.placa" href="/admin/deletevehicle" class="delete"></a></td></tr>
         </tbody>
     </table>
-
 <div id="dialogdelete" title="Eliminar Veh&iacute;culo" class="hide">
     <h3>Advertencia</h3>
     <p>Esta acci&oacute;n borrar&aacute; permanentemente el veh&iacute;culo <span style="font-weight:bold;color:#2180CE;"></span> del sistema.</p>
     <p>¿Est&aacute; seguro que desea realizar esta acci&oacute;n?</p>
 </div>
-
 <p>$msg</p>
-
 <script>
  jQuery(document).ready(function(){
-    // Dialog Delete
     jQuery('#dialogdelete').dialog({
              autoOpen: false,
              width: 500,
@@ -47,13 +40,11 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
                        var placa=$$(this).data('data-placa');
                        var url=$$(this).data('data-url');
                        href = url+'?id='+id+'&amp;placa='+placa;
-                       console.log(href);
                        window.location.href = href;
                        $$(this).dialog("close");
                  }
              }
     });
-    // Delete link
     jQuery('.delete').click(function(){
             var id=$$(this).attr('data-id');
             var placa=$$(this).attr('data-placa');

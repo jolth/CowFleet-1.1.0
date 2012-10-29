@@ -7,11 +7,7 @@ __date__      = "28 feb 2012"
 __copyright__ = "Copyright (c) 2012 Jorge A. Toro"
 __license__   = "BSD"
 
-
-#DB = web.database(dbn='postgres', user='postgres', pw='qwerty', db='myweb')
 DB = web.database(dbn='postgres', user='postgres', pw='qwerty', db='cowfleet')
 
 transaction = DB.transaction()
-
 cache = False
-

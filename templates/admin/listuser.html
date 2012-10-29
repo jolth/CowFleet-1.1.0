@@ -1,6 +1,5 @@
 $def with (session, usuarios, msg=None)
 <script type="text/javascript" src="/static/js/picnet.table.filter.min.js"></script>
-$# Nombre del cliente:
 $var username: $session.username.nombre1.lower().capitalize() $session.username.apellido1.lower().capitalize()
 <h2>Lista de Usuarios</h2>
     <table id='tabla1'>
@@ -25,7 +24,6 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
 <p>$msg</p>
 <script>
  jQuery(document).ready(function(){
-    // Dialog Delete
     jQuery('#dialogdelete').dialog({
              autoOpen: false,
              width: 500,
@@ -38,14 +36,12 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
                        var id=$$(this).data('data-userid');
                        var name=$$(this).data('data-username');
                        var url=$$(this).data('data-url');
-                       href = url+'?id='+id//+'&amp;name='+name;
-                       console.log(href);
+                       href = url+'?id='+id
                        window.location.href = href;
                        $$(this).dialog("close");
                  }
              }
     });
-    // Delete link
     jQuery('.delete').click(function(){
             var id=$$(this).attr('data-userid');
             var name=$$(this).attr('data-username');
@@ -57,7 +53,6 @@ $var username: $session.username.nombre1.lower().capitalize() $session.username.
             $$('#dialogdelete').dialog('open');
             return false;
     });
-    // TableFilter
     jQuery('#tabla1').tableFilter();
     jQuery(':input').addClass('input');
     jQuery(':input').css('padding', '1px');;

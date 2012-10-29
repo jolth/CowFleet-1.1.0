@@ -21,6 +21,15 @@ html, body {
   height: 100%;
 }
 
+.container-fluid {padding-right:1px; padding-left:1px;}
+.ubicame{cursor:pointer;}
+a.ok {
+background: url(/static/img/ok.png)no-repeat left top;
+width: 16px;
+height: 16px;
+display: inline-block;
+}
+
 @media print {
   html, body {
     height: auto;
@@ -30,3 +39,4 @@ html, body {
     height: 650px;
   }
 }
+

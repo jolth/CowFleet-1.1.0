@@ -1,0 +1,200 @@
+$def with (session, vehicles)
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Manage Vehicles and Equipment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/img/favicon.png" type="image/png" />
+    <link href="/static/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="/static/css/ui/default.css" rel="stylesheet">
+    <style type="text/css">
+    </style>
+    <script>
+      function initialize() {
+        var mapOptions = {
+          zoom: 8,
+          center: new google.maps.LatLng(5.06798,-75.51738),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById('map_canvas'),
+            mapOptions);
+      }
+
+      function loadScript() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&' +
+            'callback=initialize';
+        document.body.appendChild(script);
+      }
+
+      window.onload = loadScript;
+    </script>
+</head>
+<body>
+<div id="root">
+<div id="wrapper">
+    <div id="bar1" class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <!--// Iphone View Menu Button-->
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="/">Monitoreo de Veh&iacute;culos</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Monitoreo</a></li>
+                    <li><a href="#">Eventos <span class="badge"> </span></a></li>
+                    <li><a href="#">Reportes</a></li>
+                </ul>
+        
+                <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">$session.username.nombre1.lower().capitalize() $session.username.apellido1.lower().capitalize() <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                      <li><a href='/logout'>Salir</a></li>
+                    </ul>
+                </li>
+                </ul>
+            </div>
+            <!-- /.nav-collapse -->
+        </div>
+        </div>
+    </div>
+    <!-- Container -->
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span3">
+                    <h2>Veh&iacute;culos</h2>
+                    <div>
+                    <table class="table" >
+                        <thead>
+                            <tr>
+                                <th>Placa</th>
+                                <th>Reporte</th>
+                                <th>Velocidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            $for i in vehicles.list():
+                                <tr class="ubicame" data-posicion="$i.position[1:-1]" rel="popover" data-original-title="Ubicación" data-content="$i.ubicacion">
+                                 <td>$i.placa.upper()</td>
+                                 <td>$i.fecha.strftime("%F %H:%M:%S")</td>
+                                 <td>$i.velocidad km/h</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                    </div>
+            </div>
+            <div class="span9">
+                <div id="map_canvas"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="/static/assets/js/jquery.js"></script>
+<script src="/static/assets/js/bootstrap-transition.js"></script>
+<script src="/static/assets/js/bootstrap-alert.js"></script>
+<script src="/static/assets/js/bootstrap-modal.js"></script>
+<script src="/static/assets/js/bootstrap-dropdown.js"></script>
+<script src="/static/assets/js/bootstrap-scrollspy.js"></script>
+<script src="/static/assets/js/bootstrap-tab.js"></script>
+<script src="/static/assets/js/bootstrap-tooltip.js"></script>
+<script src="/static/assets/js/bootstrap-popover.js"></script>
+<script src="/static/assets/js/bootstrap-button.js"></script>
+<script src="/static/assets/js/bootstrap-collapse.js"></script>
+<script src="/static/assets/js/bootstrap-carousel.js"></script>
+<script src="/static/assets/js/bootstrap-typeahead.js"></script>
+<script>
+var eventos = function(){
+    var num = null;
+    $$.getJSON('/user/listeventjson', function(data){
+        num = data[0].count;
+        $$('.badge').text(num);
+    });
+};
+
+/*mapa = {
+    init: function(lat, lng, zm, ubicacion){
+            google.maps.event.addDomListener(window, 'load', mapa.initialize(lat, lng, zm, ubicacion));
+    },
+    initialize: function(lat, lng, zm, ubicacion){
+        var latlng = new google.maps.LatLng(lat,lng);
+        var mapOptions = {
+            zoom: zm,
+            center: latlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById('map_canvas'),
+                                      mapOptions);
+        var image = '/static/img/trunkgreen.png';
+        var marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          icon: image, 
+          title: "Map"
+        });
+    },
+};*/
+
+var mapi = function(lat, lng){
+    var latlng = new google.maps.LatLng(lat,lng);
+    var mapOptions = {
+        zoom: 18,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(document.getElementById('map_canvas'),
+                        mapOptions);
+    var image = '/static/img/trunkgreen.png';
+    var marker = new google.maps.Marker({
+          position: latlng,
+          map: map,
+          icon: image, 
+          title: "Map"
+    });
+}
+</script>
+<script>
+    jQuery(document).ready(function(){
+        eventos();
+        jQuery('tbody tr').popover('hide');
+
+        var mapHeight = jQuery(document).height();
+        jQuery('#map_canvas').height(mapHeight-(mapHeight*5.19/100));
+
+        jQuery(document).load(function(){
+                var mapHeight = jQuery(this).height();
+                jQuery('#map_canvas').height(mapHeight-(mapHeight*5.19/100));
+            });
+
+        jQuery(window).resize(function(){
+                var mapHeight = jQuery(this).height();
+                jQuery('#map_canvas').height(mapHeight-(mapHeight*5.19/100));
+            });
+
+        $$('.ubicame').on('click', function(){
+            //console.log('clic: ' + this);
+            //console.log('position: ' + $$(this).attr('data-position'));
+            //map_vehicle.init($$(this).attr('data-position'), 19);
+            var position = $$(this).attr('data-posicion').split(",");
+            var ubicacion = $$(this).attr('data-content')
+            //mapa.init(position[0], position[1], 19, ubicacion);
+            //google.maps.event.addDomListener(window, 'load', mapa.initialize(lat, lng, zm, ubicacion));
+            google.maps.event.addDomListener(window, 'load', mapi(position[0], position[1]));
+            //console.log('position: ' + $$(this).attr('data-position'));
+            //console.log('[position]: ' + position[0]);
+            //console.log(ubicacion);
+        });
+    });
+</script>
+</body>
+</html>
